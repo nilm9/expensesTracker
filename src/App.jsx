@@ -1,16 +1,23 @@
 import { useState } from 'react'
 import Header from './components/Header'
 import IconoNuevoGasto from './img/nuevo-gasto.svg'
+import Modal from './components/Modal'
 
 function App() {
 
   const [presupuesto, setPresupuesto] = useState(0)
   const [isValidPresupuesto, setIsValidPresupuesto] = useState(false)
 
+  const [animarModal, setAnimarModal] = useState(true)
+
   const [modal, setModal] = useState(false)
 
   const handleNuevoGasto = () => {  
     setModal(true)
+
+    setTimeout(() => {
+      setAnimarModal(true)
+    }, 2000);
 
    } 
 
@@ -28,7 +35,7 @@ function App() {
       </div>
       }
       {modal &&
-      <p>Desde modal</p>}
+      <Modal setModal={setModal} animarModal={animarModal} setAnimarModal={setAnimarModal} />}
     </div>
   )
 }
