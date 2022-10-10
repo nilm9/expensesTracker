@@ -2,6 +2,7 @@ import { useState } from 'react'
 import Header from './components/Header'
 import IconoNuevoGasto from './img/nuevo-gasto.svg'
 import { generarId } from './helpers'
+import { formatearFecha } from './helpers'
 import Modal from './components/Modal'
 import ListadoGastos from './components/ListadoGastos'
 
@@ -16,6 +17,7 @@ function App() {
 
   const guardarGasto = gasto => {
     gasto.id = generarId();
+    gasto.fecha = Date.now();
     setGastos([...gastos, gasto])
     //Close modal
     setAnimarModal(false)
