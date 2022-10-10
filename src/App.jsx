@@ -8,11 +8,13 @@ import ListadoGastos from './components/ListadoGastos'
 
 function App() {
 
+  const [gastos, setGastos] = useState([])
+
   const [presupuesto, setPresupuesto] = useState(0)
   const [isValidPresupuesto, setIsValidPresupuesto] = useState(false)
   const [modal, setModal] = useState(false)
   const [animarModal, setAnimarModal] = useState(false)
-  const [gastos, setGastos] = useState([])
+  const [gastoEditar, setGastoEditar] = useState({})
 
 
   const guardarGasto = gasto => {
@@ -37,8 +39,9 @@ function App() {
    } 
 
   return (
-    <div>
+    <div className={modal ? 'fijar' : ''}>
       <Header 
+      gastos={gastos}
       presupuesto={presupuesto}  
       setPresupuesto={setPresupuesto}
       isValidPresupuesto={isValidPresupuesto}
@@ -47,7 +50,7 @@ function App() {
       {isValidPresupuesto &&
         <>
           <main>
-            <ListadoGastos gastos={gastos}/>
+            <ListadoGastos gastos={gastos} setGastoEditar={setGastoEditar}/>
           </main>
           <div className="nuevo-gasto">
           <img src={IconoNuevoGasto} alt="icono nuevo gasto" onClick={handleNuevoGasto} />
