@@ -9,8 +9,10 @@ const ControlPresupuesto = ({gastos, presupuesto}) => {
     //Tracks each expense
     useEffect(() => {
         //Starts at 0
-        const totalGastado = gastos.reduce((total,gasto) => gasto.cantidad + total, 0)
+        const totalGastado = gastos.reduce((total,gasto) => Number(gasto.cantidad) + total, 0)
         const totalDisponible = presupuesto - totalGastado;
+        console.log(totalDisponible);
+        console.log(totalGastado);
         setGastado(totalGastado)
         setDisponible(totalDisponible);
     }, [gastos])
@@ -40,7 +42,7 @@ const ControlPresupuesto = ({gastos, presupuesto}) => {
                 <span>Disponible:</span> {formatearCantidad(disponible)}
             </p>
             <p>
-                <span>Gastado: </span>${formatearCantidad(gastado)}
+                <span>Gastado: </span>{formatearCantidad(gastado)}
             </p>
         </div>
     </div>
