@@ -19,6 +19,7 @@ function App() {
   const [animarModal, setAnimarModal] = useState(false)
   const [gastoEditar, setGastoEditar] = useState({})
   const [filtro, setFiltro] = useState('')
+  const [gastosFiltrados, setGastosFiltrados] = useState([])
 
   useEffect(() => {
       if (Object.keys(gastoEditar).length > 0) {
@@ -38,9 +39,12 @@ function App() {
       localStorage.setItem('gastos', JSON.stringify(gastos) ?? [])
     }, [gastos])
 
+    //Filter expeneses
     useEffect(() => {
       if (filtro) {
-        gastos.filter(gastoState => gasto.id !==gastoState.id ? gasto : [])
+        //Filter expenses by category
+       const gastosFiltrados= gastos.filter(gasto => gasto.categoria === filtro)
+       setGastosFiltrados(gastosFiltrados);
       }
     }, [filtro]);
 
@@ -97,6 +101,7 @@ function App() {
     <div className={modal ? 'fijar' : ''}>
       <Header 
       gastos={gastos}
+      setGastos={setGastos}
       presupuesto={presupuesto}  
       setPresupuesto={setPresupuesto}
       isValidPresupuesto={isValidPresupuesto}
@@ -106,7 +111,7 @@ function App() {
         <>
           <main>
             <Filtros setFiltro={setFiltro} filtro={filtro} />
-            <ListadoGastos gastos={gastos} setGastoEditar={setGastoEditar} eliminarGasto={eliminarGasto}/>
+            <ListadoGastos gastos={gastos} setGastoEditar={setGastoEditar} eliminarGasto={eliminarGasto} filtro={filtro} gastosFiltrados={gastosFiltrados} />
           </main>
           <div className="nuevo-gasto">
           <img src={IconoNuevoGasto} alt="icono nuevo gasto" onClick={handleNuevoGasto} />
