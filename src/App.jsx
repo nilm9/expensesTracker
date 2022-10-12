@@ -7,17 +7,18 @@ import Modal from './components/Modal'
 import ListadoGastos from './components/ListadoGastos'
 import { useEffect } from 'react'
 import { object } from 'prop-types'
+import Filtros from './components/Filtros'
 
 function App() {
 
-  const [gastos, setGastos] = useState([])
+  const [gastos, setGastos] = useState( localStorage.getItem('gastos') ? JSON.parse(localStorage.getItem('gastos')) : [])
 
-  const [presupuesto, setPresupuesto] = useState(0)
+  const [presupuesto, setPresupuesto] = useState(Number(localStorage.getItem("presupuesto")) ?? 0)
   const [isValidPresupuesto, setIsValidPresupuesto] = useState(false)
   const [modal, setModal] = useState(false)
   const [animarModal, setAnimarModal] = useState(false)
-  
   const [gastoEditar, setGastoEditar] = useState({})
+  const [filtro, setFiltro] = useState('')
 
   useEffect(() => {
       if (Object.keys(gastoEditar).length > 0) {
@@ -28,6 +29,30 @@ function App() {
           }
     }, [gastoEditar])
 
+
+    useEffect(() => {
+    localStorage.setItem('presupuesto', presupuesto ?? 0)
+    }, [presupuesto])
+
+    useEffect(() => {
+      localStorage.setItem('gastos', JSON.stringify(gastos) ?? [])
+    }, [gastos])
+
+    useEffect(() => {
+      if (filtro) {
+        gastos.filter(gastoState => gasto.id !==gastoState.id ? gasto : [])
+      }
+    }, [filtro]);
+
+
+    useEffect(() => {
+      const presupuesto = Number(localStorage.getItem('presupuesto')) ?? 0
+
+      if(presupuesto > 0 ){
+        setIsValidPresupuesto(true)
+      }
+
+    }, []);
 
   const guardarGasto = gasto => {
 
@@ -80,6 +105,7 @@ function App() {
       {isValidPresupuesto &&
         <>
           <main>
+            <Filtros setFiltro={setFiltro} filtro={filtro} />
             <ListadoGastos gastos={gastos} setGastoEditar={setGastoEditar} eliminarGasto={eliminarGasto}/>
           </main>
           <div className="nuevo-gasto">
